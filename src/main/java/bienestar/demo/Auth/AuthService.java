@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 public class AuthService {
 
     private final UserRepository userRepository;
+    private final JwtService jwtService;
 
     public AuthResponse login(LoginRequest request) {
         return null;
@@ -29,6 +30,9 @@ public class AuthService {
 
         userRepository.save(user);
 
+        return AuthResponse.builder()
+            .token(jwtService.getToken(user))
+            .build();
     }
 
 }
