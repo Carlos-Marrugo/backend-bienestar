@@ -19,15 +19,15 @@ public class AuthService {
 
     public AuthResponse register(RegisterRequest request) {
         User user = User.builder()
-            .username(request.getUsername())
-            .lastname(request.getLastname())
-            .firstname(request.getFirstname())
-            .country(request.getCountry())
-            .password(request.getPassword())
-            .role(Role.USER)
-            .build();
+                .username(request.getUsername())
+                .lastname(request.getLastname())
+                .firstname(request.getFirstname())
+                .country(request.getCountry())
+                .password(request.getPassword())
+                .role(Role.USER)
+                .build();
 
-            userRepository.save(user);
+        userRepository.save(user);
 
     }
 
