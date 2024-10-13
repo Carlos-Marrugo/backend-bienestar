@@ -1,11 +1,11 @@
 package bienestar.demo.Auth;
 
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
-
-import bienestar.demo.User.Role;
-import bienestar.demo.User.UserRepository;
 import lombok.RequiredArgsConstructor;
+import bienestar.demo.User.Role;
+import bienestar.demo.User.User;
+import bienestar.demo.User.UserRepository;
+import bienestar.demo.Jwt.JwtService;
 
 @Service
 @RequiredArgsConstructor
@@ -15,6 +15,7 @@ public class AuthService {
     private final JwtService jwtService;
 
     public AuthResponse login(LoginRequest request) {
+        // Implement login logic here
         return null;
     }
 
@@ -31,8 +32,7 @@ public class AuthService {
         userRepository.save(user);
 
         return AuthResponse.builder()
-            .token(jwtService.getToken(user))
-            .build();
+                .token(jwtService.getToken(user))
+                .build();
     }
-
 }
