@@ -17,23 +17,23 @@ import bienestar.demo.Jwt.JwtAuthenticationFilter;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final AuthenticationProvider authenticationProvider; // Inyección de AuthenticationProvider
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;  // Filtro de JWT
+    private final AuthenticationProvider authenticationProvider;     // Provider de autenticación
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf(csrf -> csrf.disable())  
-                .authorizeHttpRequests(authRequest -> authRequest
-                        .requestMatchers("/auth/**").permitAll() 
-                        .anyRequest().authenticated()  
+                .csrf(csrf -> csrf.disable())  // Deshabilitar CSRF porque estamos usando JWT
+                .authorizeRequests(authRequest -> authRequest
+                        .requestMatchers("/auth/**").permitAll()  // Rutas de autenticación sin protección
+                        .anyRequest().authenticated()  // Cualquier otra ruta requiere autenticación
                 )
-                .sessionManagement(sessionManager -> 
+                .sessionManagement(sessionManager ->
                         sessionManager
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)  
+                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)  // Deshabilitar sesión
                 )
-                .authenticationProvider(authenticationProvider) 
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) 
-                .build(); 
+                .authenticationProvider(authenticationProvider)  // Configurar el provider
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)  // Añadir el filtro JWT antes del filtro de autenticación de usuario y contraseña
+                .build();
     }
 }

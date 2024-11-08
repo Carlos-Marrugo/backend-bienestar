@@ -17,7 +17,11 @@ import bienestar.demo.User.UserRepository;
 @RequiredArgsConstructor
 public class AplicationConfig {
 
+<<<<<<< Updated upstream
     private final UserRepository userRepository;
+=======
+    private final UserAuthRepository userRepository; // User repository actualizado
+>>>>>>> Stashed changes
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
@@ -34,13 +38,12 @@ public class AplicationConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder();  // Encriptación de contraseñas
     }
 
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User Not Found"));
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
     }
-
 }
