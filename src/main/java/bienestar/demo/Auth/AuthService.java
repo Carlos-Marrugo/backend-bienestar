@@ -1,88 +1,5 @@
-    package bienestar.demo.Auth;
+package bienestar.demo.Auth;
 
-<<<<<<< HEAD
-    import org.springframework.security.authentication.AuthenticationManager;
-    import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-    import org.springframework.security.core.userdetails.UserDetails;
-    import org.springframework.security.crypto.password.PasswordEncoder;
-    import org.springframework.stereotype.Service;
-=======
-<<<<<<< Updated upstream
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import lombok.RequiredArgsConstructor;
-import bienestar.demo.User.Role;
-import bienestar.demo.User.User;
-import bienestar.demo.User.UserRepository;
-import bienestar.demo.Jwt.JwtService;
->>>>>>> feature/jwt-auth-registration
-
-    import bienestar.demo.Jwt.JwtService;
-    import bienestar.demo.User.Role;
-    import bienestar.demo.User.User;
-    import bienestar.demo.User.UserAuthRepository;
-    import lombok.RequiredArgsConstructor;
-
-    @Service
-    @RequiredArgsConstructor
-    public class AuthService {
-
-        private final UserAuthRepository userRepository;
-        private final JwtService jwtService;
-        private final PasswordEncoder passwordEncoder;
-        private final AuthenticationManager authenticationManager;
-
-        public AuthResponse login(LoginRequest request) {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-            UserDetails user = userRepository.findByUsername(request.getUsername()).orElseThrow();
-            // Autenticación correcta, generamos el token
-            String token = jwtService.getToken(user);
-            return AuthResponse.builder()
-                    .token(token)
-                    .build();
-
-        }
-
-        public AuthResponse register(RegisterRequest request) {
-            // Hasheamos la contraseña antes de guardar el usuario
-            User user = User.builder()
-                    .username(request.getUsername())
-                    .lastname(request.getLastname())
-                    .firstname(request.getFirstname())
-                    .country(request.getCountry())
-                    .password(passwordEncoder.encode(request.getPassword())) // Hasheamos la contraseña
-                    .role(Role.USER)
-                    .build();
-
-            userRepository.save(user);
-
-            // Retornamos la respuesta con el token J 
-            return AuthResponse.builder()
-                    .token(jwtService.getToken(user))
-                    .build();
-        }
-    }
-<<<<<<< HEAD
-=======
-
-    public AuthResponse register(RegisterRequest request) {
-        // Hasheamos la contraseña antes de guardar el usuario
-        User user = User.builder()
-                .username(request.getUsername())
-                .lastname(request.getLastname())
-                .firstname(request.getFirstname())
-                .country(request.getCountry())
-                .password(passwordEncoder.encode(request.getPassword())) // Hasheamos la contraseña
-                .role(Role.USER)
-                .build();
-
-        userRepository.save(user);
-        
-
-        // Retornamos la respuesta con el token J 
-        return AuthResponse.builder()
-                .token(jwtService.getToken(user))  
-=======
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -95,6 +12,7 @@ import bienestar.demo.User.UserAuth;
 import bienestar.demo.User.UserAuthRepository;
 import bienestar.demo.User.Admin; // Importa la entidad Admin
 import lombok.RequiredArgsConstructor;
+import bienestar.demo.Exception.UserNotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -105,18 +23,17 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
-    // Método para login
     public AuthResponse login(LoginRequest request) {
-        // Autenticación de usuario con el nombre de usuario y contraseña proporcionados
+        // Autenticación de usuario con el nombre de usuario y contraseña
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
 
         // Obtener el usuario autenticado desde el repositorio
         UserAuth userAuth = userAuthRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado"));
 
-        // Verificamos que el rol sea ADMIN (solo para este caso)
+        // Verificamos que el rol sea ADMIN
         if (!userAuth.getRole().equals(Role.ADMIN)) {
             throw new RuntimeException("Acceso denegado. El usuario no es un ADMIN.");
         }
@@ -157,4 +74,3 @@ public class AuthService {
                 .build();
     }
 }
->>>>>>> feature/jwt-auth-registration

@@ -3,11 +3,11 @@ package bienestar.demo.User;
 import java.util.Collection;
 import java.util.List;
 
-import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,16 +32,17 @@ public class UserAuth implements UserDetails {
     private String password;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Role role;
 
     // Relaciones OneToOne con Estudiante, Instructor y Administrador
-    @OneToOne(mappedBy = "userAuth", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "userAuth", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Student estudiante;
 
-    @OneToOne(mappedBy = "userAuth", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "userAuth", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Instructor instructor;
 
-    @OneToOne(mappedBy = "userAuth", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "userAuth", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Admin administrador;
 
     @Override

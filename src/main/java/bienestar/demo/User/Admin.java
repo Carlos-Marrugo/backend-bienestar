@@ -16,13 +16,12 @@ public class Admin {
     private String departamento;
     private Boolean permisosSuperAdmin;
 
-    // Getters y Setters
-    public Integer getId() {
-        return id;
-    }
+    public Admin() {}
 
-    public void setId(Integer id) {
-        this.id = id;
+    public Admin(UserAuth userAuth, String departamento, Boolean permisosSuperAdmin) {
+        this.userAuth = userAuth;
+        this.departamento = departamento;
+        this.permisosSuperAdmin = permisosSuperAdmin;
     }
 
     public UserAuth getUserAuth() {

@@ -1,6 +1,7 @@
 package bienestar.demo.User;
 
 import jakarta.persistence.*;
+import org.aspectj.apache.bcel.generic.InstructionConstants;
 
 @Entity
 public class Instructor {
@@ -15,6 +16,14 @@ public class Instructor {
 
     private String areaEspecializacion;
     private String horarioAsignado;
+
+    public Instructor() {}
+    public Instructor(UserAuth userAuth, String areaEspecializacion, String horarioAsignado) {
+        this.userAuth = userAuth;
+        this.areaEspecializacion = areaEspecializacion;
+        this.horarioAsignado = horarioAsignado;
+    }
+
 
     // Getters y Setters
     public Integer getId() {

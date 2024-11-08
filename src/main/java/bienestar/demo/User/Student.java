@@ -17,6 +17,15 @@ public class Student {
     private String historialActividades;
     private String progreso;
 
+    public Student () {}  // Constructor sin argumentos (necesario para JPA)
+
+    public Student(UserAuth userAuth, Integer horasVerificadas, String historialActividades, String progreso) {
+        this.userAuth = userAuth;
+        this.horasVerificadas = horasVerificadas;
+        this.historialActividades = historialActividades;
+        this.progreso = progreso;
+    }
+
     // Getters y Setters
     public Integer getId() {
         return id;
