@@ -10,7 +10,7 @@ import bienestar.demo.Jwt.JwtService;
 import bienestar.demo.User.Role;
 import bienestar.demo.User.UserAuth;
 import bienestar.demo.User.UserAuthRepository;
-import bienestar.demo.User.Admin; // Importa la entidad Admin
+import bienestar.demo.User.Admin;
 import lombok.RequiredArgsConstructor;
 import bienestar.demo.Exception.UserNotFoundException;
 
@@ -23,18 +23,17 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
-    // Método para login
     public AuthResponse login(LoginRequest request) {
-        // Autenticación de usuario con el nombre de usuario y contraseña proporcionados
+        // Autenticación de usuario con el nombre de usuario y contraseña
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
 
         // Obtener el usuario autenticado desde el repositorio
         UserAuth userAuth = userAuthRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado"));
 
-        // Verificamos que el rol sea ADMIN (solo para este caso)
+        // Verificamos que el rol sea ADMIN
         if (!userAuth.getRole().equals(Role.ADMIN)) {
             throw new RuntimeException("Acceso denegado. El usuario no es un ADMIN.");
         }
