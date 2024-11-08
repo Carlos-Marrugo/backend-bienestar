@@ -1,5 +1,6 @@
 package bienestar.demo.Auth;
 
+import bienestar.demo.User.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,8 +14,12 @@ import lombok.NoArgsConstructor;
 public class RegisterRequest {
 
     private String username;
-    String password;
-    String firstname;
-    String lastname;
-    String country;
+    private String password;
+    private Role role;
+
+    private String departamento; // Admin
+    private Boolean permisosSuperAdmin; // Admin
+    private String especialidad; // Instructor
+    private String major; // Student
+    private Integer year; // Student
 }
