@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RegisterRequest {
 
-    String username;
+    private String username;
     String password;
     String firstname;
     String lastname;
