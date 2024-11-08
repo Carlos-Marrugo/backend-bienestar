@@ -11,13 +11,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import lombok.RequiredArgsConstructor;
-import bienestar.demo.User.UserAuthRepository;
+import bienestar.demo.User.UserRepository;
 
 @Configuration
 @RequiredArgsConstructor
 public class AplicationConfig {
 
-    private final UserAuthRepository userRepository;
+    private final UserRepository userRepository;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
