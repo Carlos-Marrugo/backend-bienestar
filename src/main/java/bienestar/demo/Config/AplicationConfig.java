@@ -18,7 +18,11 @@ import bienestar.demo.User.UserRepository;
 public class AplicationConfig {
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     private final UserRepository userRepository;
+=======
+    private final UserAuthRepository userRepository; // User repository actualizado
+>>>>>>> Stashed changes
 =======
     private final UserAuthRepository userRepository; // User repository actualizado
 >>>>>>> Stashed changes

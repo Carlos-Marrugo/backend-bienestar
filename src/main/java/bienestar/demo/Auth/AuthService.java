@@ -1,6 +1,7 @@
 package bienestar.demo.Auth;
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
@@ -86,6 +87,55 @@ public class AuthService {
                 .build();
     }
 
+=======
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import bienestar.demo.Jwt.JwtService;
+import bienestar.demo.User.Role;
+import bienestar.demo.User.UserAuth;
+import bienestar.demo.User.UserAuthRepository;
+import bienestar.demo.User.Admin; // Importa la entidad Admin
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class AuthService {
+
+    private final UserAuthRepository userAuthRepository; // Repositorio de UserAuth
+    private final JwtService jwtService;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+
+    // Método para login
+    public AuthResponse login(LoginRequest request) {
+        // Autenticación de usuario con el nombre de usuario y contraseña proporcionados
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+        );
+
+        // Obtener el usuario autenticado desde el repositorio
+        UserAuth userAuth = userAuthRepository.findByUsername(request.getUsername())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        // Verificamos que el rol sea ADMIN (solo para este caso)
+        if (!userAuth.getRole().equals(Role.ADMIN)) {
+            throw new RuntimeException("Acceso denegado. El usuario no es un ADMIN.");
+        }
+
+        // Generar token JWT para el usuario
+        String token = jwtService.getToken(userAuth);
+
+        // Devolver el token en la respuesta
+        return AuthResponse.builder()
+                .token(token)
+                .build();
+    }
+
+>>>>>>> Stashed changes
     // Método para registrar un nuevo usuario con rol ADMIN
     public AuthResponse register(RegisterRequest request) {
         // Crear un nuevo objeto UserAuth con los datos proporcionados y asignamos el rol de ADMIN
@@ -109,6 +159,9 @@ public class AuthService {
         // Devolver el token en la respuesta
         return AuthResponse.builder()
                 .token(token)
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
                 .build();
     }
