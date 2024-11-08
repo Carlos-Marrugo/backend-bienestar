@@ -12,6 +12,7 @@ import bienestar.demo.User.UserAuth;
 import bienestar.demo.User.UserAuthRepository;
 import bienestar.demo.User.Admin; // Importa la entidad Admin
 import lombok.RequiredArgsConstructor;
+import bienestar.demo.Exception.UserNotFoundException;
 
 @Service
 @RequiredArgsConstructor
