@@ -11,21 +11,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import lombok.RequiredArgsConstructor;
-import bienestar.demo.User.UserRepository;
+import bienestar.demo.User.UserAuthRepository;
 
 @Configuration
 @RequiredArgsConstructor
 public class AplicationConfig {
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    private final UserRepository userRepository;
-=======
-    private final UserAuthRepository userRepository; // User repository actualizado
->>>>>>> Stashed changes
-=======
-    private final UserAuthRepository userRepository; // User repository actualizado
->>>>>>> Stashed changes
+    private final UserAuthRepository userRepository;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
@@ -42,12 +34,13 @@ public class AplicationConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();  // Encriptación de contraseñas
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found"));
     }
+
 }
