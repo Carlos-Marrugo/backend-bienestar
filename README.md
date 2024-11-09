@@ -25,21 +25,19 @@ Bienvenido al sistema de gestión de actividades para bienestar institucional. E
 
 ## 📁 Estructura del Proyecto
 
+- **src**: Contiene el código fuente del proyecto.
+  - **controller**: Controladores para manejar las peticiones HTTP.
+  - **service**: Servicios que contienen la lógica de negocio.
+  - **model**: Entidades JPA.
+  - **repository**: Interfaces de repositorios para interactuar con la base de datos.
+  - **config**: Archivos de configuración para la seguridad y autenticación.
 
 ## ⚙️ Instalación y Ejecución
 
-1. **Clona el repositorio**:
-   ```bash
-   git clone https://github.com/tu-usuario/bienestar-demo.git
-   cd bienestar-demo
-   
-2. Configura la base de datos: Actualiza las credenciales en application.properties para la conexión a tu base de datos.
+### 1. Clonar el Repositorio
 
-properties
-   ```bash
-    spring.datasource.url=jdbc:mysql://localhost:3306/bienestar_demo
-    spring.datasource.username=usuario
-    spring.datasource.password=contraseña
+Primero, clona el repositorio de GitHub:
 
-
-
+```bash
+git clone https://github.com/tu-usuario/bienestar-demo.git
+cd bienestar-demo
