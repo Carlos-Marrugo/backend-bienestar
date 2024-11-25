@@ -1,6 +1,6 @@
 package bienestar.demo.Auth;
 
-import bienestar.demo.User.Student;
+import bienestar.demo.User.dto.StudentDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,8 +12,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class AuthResponse {
     String token;
-    private List<Student> students;
+    private List<StudentDTO> students; // Cambiado a DTO
 }

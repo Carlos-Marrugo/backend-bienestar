@@ -1,49 +1,65 @@
 package bienestar.demo.User;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "estudiante")
+@Table(name = "student")
 public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_estudiante")
     private Integer id;
 
-    @OneToOne
-    @JoinColumn(name = "user_auth_id")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_auth_id", referencedColumnName = "id", nullable = false)
     private UserAuth userAuth;
 
     private String nombre;
     private String correo;
-
-    @Column(name = "creado_en")
-    private LocalDateTime creadoEn;
-
     private String carrera;
     private String cedula;
     private String telefono;
-
-    @Column(name = "fecha_nacimiento")
     private LocalDate fechaNacimiento;
-
     private Integer horasVerificadas;
     private String historialActividades;
     private String progreso;
+    private LocalDateTime creadoEn;
 
-    // Constructor por defecto
     public Student() {}
 
-    // Getters y Setters
+    public Student(UserAuth userAuth, String nombre, String correo, String carrera, String cedula, String telefono,
+                   LocalDate fechaNacimiento, Integer horasVerificadas, String historialActividades, String progreso) {
+        this.userAuth = userAuth;
+        this.nombre = nombre;
+        this.correo = correo;
+        this.carrera = carrera;
+        this.cedula = cedula;
+        this.telefono = telefono;
+        this.fechaNacimiento = fechaNacimiento;
+        this.horasVerificadas = horasVerificadas;
+        this.historialActividades = historialActividades;
+        this.progreso = progreso;
+        this.creadoEn = LocalDateTime.now();
+    }
+
+// Getters y Setters
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public UserAuth getUserAuth() {
+        return userAuth;
+    }
+
+    public void setUserAuth(UserAuth userAuth) {
+        this.userAuth = userAuth;
     }
 
     public String getNombre() {
@@ -60,14 +76,6 @@ public class Student {
 
     public void setCorreo(String correo) {
         this.correo = correo;
-    }
-
-    public LocalDateTime getCreadoEn() {
-        return creadoEn;
-    }
-
-    public void setCreadoEn(LocalDateTime creadoEn) {
-        this.creadoEn = creadoEn;
     }
 
     public String getCarrera() {
@@ -102,14 +110,6 @@ public class Student {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public UserAuth getUserAuth() {
-        return userAuth;
-    }
-
-    public void setUserAuth(UserAuth userAuth) {
-        this.userAuth = userAuth;
-    }
-
     public Integer getHorasVerificadas() {
         return horasVerificadas;
     }
@@ -132,5 +132,13 @@ public class Student {
 
     public void setProgreso(String progreso) {
         this.progreso = progreso;
+    }
+
+    public LocalDateTime getCreadoEn() {
+        return creadoEn;
+    }
+
+    public void setCreadoEn(LocalDateTime creadoEn) {
+        this.creadoEn = creadoEn;
     }
 }

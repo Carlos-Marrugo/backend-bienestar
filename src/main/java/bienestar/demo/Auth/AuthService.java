@@ -1,6 +1,7 @@
 package bienestar.demo.Auth;
 
 import bienestar.demo.User.*;
+import bienestar.demo.User.dto.StudentDTO;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,6 +12,7 @@ import bienestar.demo.Exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,23 +29,26 @@ public class AuthService {
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
 
-        //Obtener usuario
+        // Obtener usuario
         UserAuth userAuth = userAuthRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado"));
 
         // Generar token
         String token = jwtService.getToken(userAuth);
 
-        //verificar rol y obtener estudiantes si es admin
-        List<Student> students = null;
+        // Verificar rol y obtener estudiantes si es admin
+        List<StudentDTO> students = null;
         if (userAuth.getRole() == Role.ADMIN) {
-            students = studentRepository.findByCorreoEndingWith("@unicolombo.edu.co");
+            students = studentRepository.findByCorreoEndingWith("@unicolombo.edu.co")
+                    .stream()
+                    .map(StudentDTO::new) // Convertir cada Student a StudentDTO
+                    .collect(Collectors.toList());
         }
 
-        // Build reponse
+        // Build response
         return AuthResponse.builder()
                 .token(token)
-                .students(students)
+                .students(students) // Retornar la lista de DTOs
                 .build();
     }
 
