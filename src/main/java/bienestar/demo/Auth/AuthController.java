@@ -29,4 +29,17 @@ public class AuthController {
     public ResponseEntity<AuthResponse> registerAdmin(@RequestBody RegisterRequest request) {
         return ResponseEntity.ok(authService.registerAdmin(request));
     }
+
+
+
+    @PostMapping(value = "login/horas")
+    public ResponseEntity<Object> getStudentHours(@RequestBody HoursRequest request) {
+        try {
+            return ResponseEntity.ok(authService.getStudentHours(request));
+        } catch (IllegalAccessException e) {
+            return ResponseEntity.status(403).body("Acceso denegado: " + e.getMessage());
+        }
+    }
+
+
 }

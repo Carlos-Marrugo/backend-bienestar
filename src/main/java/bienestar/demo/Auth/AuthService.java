@@ -12,6 +12,7 @@ import bienestar.demo.Exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -81,4 +82,32 @@ public class AuthService {
         String token = jwtService.getToken(userAuth);
         return AuthResponse.builder().token(token).build();
     }
+
+    public Object getStudentHours(HoursRequest request) throws IllegalAccessException {
+        // Autenticar usuario
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+        );
+
+        // Verificar si es ADMIN
+        UserAuth userAuth = userAuthRepository.findByUsername(request.getUsername())
+                .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado"));
+        if (userAuth.getRole() != Role.ADMIN) {
+            throw new IllegalAccessException("Acceso denegado: Solo ADMIN puede acceder a este endpoint");
+        }
+
+        // Buscar estudiante por cédula
+        Student student = studentRepository.findByCedula(request.getCedula())
+                .orElseThrow(() -> new UserNotFoundException("Estudiante no encontrado"));
+
+        // Construir respuesta
+        return Map.of(
+                "nombre", student.getNombre(),
+                "correo", student.getCorreo(),
+                "actividad", student.getHistorialActividades(),
+                "horasAcumuladas", student.getHorasVerificadas()
+        );
+    }
+
+
 }

@@ -1,7 +1,11 @@
 package bienestar.demo.User;
 
+import bienestar.demo.Auth.HoursRequest;
 import bienestar.demo.User.dto.StudentDTO;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -19,4 +23,6 @@ public class StudentController {
     public List<StudentDTO> getAllStudents() {
         return studentService.getAllStudents();
     }
+
+
 }
